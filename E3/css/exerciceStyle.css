@@ -15,7 +15,7 @@
   padding: 3%;
 }
 
-#userInput {
+#userInputForm {
   display: flex;
   justify-content: space-around;
   align-items: baseline;
