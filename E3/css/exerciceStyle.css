@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: antiquewhite;
+  padding: 2%;
+}
+
+#preview {
+  padding: 3%;
+}
+
+#userInput {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.slider {
+  margin: 4%;
+}
+
+.picker {
+  min-width: 25%;
+  margin: 1%;
+}
+
+.picker h3 {
+}
+
+#formSubmission {
+  display: flex;
+  justify-content: center;
+}
+
+#buttonS {
+  padding: 2% 4%;
+  border-radius: 25px;
+}
