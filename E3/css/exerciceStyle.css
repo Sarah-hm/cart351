@@ -1,14 +1,29 @@
+/**
+blue pale : #c4daf2
+grey(offwhite): #f2f2f2
+dark:#576073
+medium:#8698b8
+**/
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: sans-serif;
+  color: #576073;
 }
 
 .container {
   width: 100%;
   height: 100%;
-  background-color: antiquewhite;
+  background-color: #f2f2f2;
   padding: 2%;
+}
+
+h2 {
+  padding: 2%;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 4vh;
 }
 
 #preview {
@@ -17,8 +32,22 @@
 
 #userInputForm {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: baseline;
+  flex-wrap: wrap;
+}
+
+#userInputForm label {
+  order: -1;
+  margin: 2% 2% 0% 2%;
+  width: 29%;
+  font-size: 2.5vh;
+}
+
+#userInputForm input {
+  align-self: flex-end;
+  margin: 2%;
+  width: 29%;
 }
 
 .slider {
@@ -30,15 +59,54 @@
   margin: 1%;
 }
 
-.picker h3 {
-}
-
 #formSubmission {
   display: flex;
   justify-content: center;
 }
 
 #buttonS {
-  padding: 2% 4%;
-  border-radius: 25px;
+  padding: 1.5% 4%;
+  border-radius: 10px;
+  font-size: 2vh;
+}
+
+#buttonS:hover {
+  color: #f2f2f2;
+  background-color: #576073;
+  box-shadow: 0 0 4px 0 #8698b8;
+  /*  blue pale : #c4daf2
+  grey(offwhite): #f2f2f2
+  dark:#576073
+  medium:#8698b8
+  */
+}
+
+/* range css styling used from : https://tippingpoint.dev/style-range-input-css*/
+input[type="range"] {
+  -webkit-appearance: none;
+  margin-right: 15px;
+  width: 200px;
+  height: 7px;
+  background: #c4daf2;
+  border-radius: 5px;
+  background-size: 70% 100%;
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #8698b8;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
 }
