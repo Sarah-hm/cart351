@@ -157,8 +157,6 @@ function run(){
 
 
 
-
-
 let i = 0;
 //while (i<NUM_DIM){
   sinAngle +=0.1
