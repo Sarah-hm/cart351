@@ -25,6 +25,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $theFile = fopen("files/dataUserInput.txt", "a") or die("Unable to open file!");
 
     fwrite($theFile, $myJSONObj);
+    //write a new line after!
+    fwrite($theFile,"\n");
     fclose($theFile);
 
     // echo $myJSONObj;

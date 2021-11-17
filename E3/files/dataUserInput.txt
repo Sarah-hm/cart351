@@ -1,1 +1,3 @@
-{"color":"#5c6370","size":"43","speed":"2"}{"color":"#1a4899","size":"36","speed":"5"}{"color":"#f53d0f","size":"92","speed":"15"}{"color":"#b4bf12","size":"49","speed":"4"}{"color":"#8698b8","size":"55","speed":"11"}{"color":"#701d72","size":"64","speed":"8"}
+{"color":"#b5654c","size":"55","speed":"11"}
+{"color":"#a138b5","size":"79","speed":"11"}
+{"color":"#b52e29","size":"75","speed":"11"}

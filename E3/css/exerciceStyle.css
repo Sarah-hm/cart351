@@ -110,3 +110,10 @@ input[type="range"]::-webkit-slider-runnable-track {
   border: none;
   background: transparent;
 }
+
+#circle {
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-radius: 50%;
+}

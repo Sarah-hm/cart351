@@ -1,36 +1,32 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] == 'GET')
+//only run in if when page loads
+if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 {
-  echo("here");
+  //echo("here");
   //get the data
    //exit;
    $theFile = fopen("files/dataUserInput.txt", "r") or die("Unable to open file!");
 
    //$i=0;
    $outArr = array();
-   $NUM_PROPS = 3;
+   //$NUM_PROPS = 3;
     //echo("test");
       while(!feof($theFile)) {   //read until eof
         //create an object to send back
-        $packObj=new stdClass();
-        for($j=0;$j<$NUM_PROPS;$j++){
+        //get the string
           $str = fgets($theFile);
-          //split and return an array ...
-          $splitArr = explode(":",$str);
-          $key = $splitArr[0];
-          $val = $splitArr[1];
-          //append the key value pair
-          $packObj->$key = trim($val);
+          $outArr[]= json_decode($str);
         }
-        $outArr[]=$packObj;
-      }
 
       fclose($theFile);
         // var_dump($outArr);
         // Now we want to JSON encode these values to send them to $.ajax success.
       $myJSONObj = json_encode($outArr);
       echo $myJSONObj;
-} ?>
+      exit;
+
+} //if
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +73,26 @@ class userShape{
 
   //ON LOAD
   window.onload = function(){
-console.log(<?php echo$myJSONObj ?>);
+
+//directly here we get the data ...
+//get the data
+$.ajax({
+  url: "landing.php",
+  type: "get", //send it through get method
+  data: {getAjaxOnLoad: "fread"}, //parameter (no form data)
+  success: function(response) {
+  //Do Something
+  //console.log("responded" +response);
+  //use the JSON .parse function to convert the JSON string into a Javascript object
+  let parsedJSON = JSON.parse(response);
+//  console.log(parsedJSON[0].size)
+},
+error: function() {
+  console.log("error occurred");
+}
+});
+
+
 // get the canvas
 let canvas = document.getElementById("testCanvas");
 //Make canvas the size of the window
@@ -92,32 +107,21 @@ canvas.height = window.innerHeight;
 //get the context
 let context = canvas.getContext("2d");
 //would usually be black
-context.fillStyle = "#8ED6FF"; // change the color we are using
-// can use properties of the canvas object -> width, height ...
-//console.log(canvas);
-// note how we can use variables to generalize...
-let lineLength = 100;
-let x1 = canvas.width/2;
-let y1 =canvas.height/2;
-let x2 = x1+lineLength;
-let y2 = canvas.height/2;
-let x3 = x1+(lineLength/2);
-let y3 = y1-lineLength;
 
-// lets draw a triangle:
-//The lineTo() method adds a new point and creates a line
-//TO that point FROM the last specified point in the canvas
-//(this method does not draw the line) -rather the stroke/fill does.
-context.beginPath(); //start a path
-context.moveTo(x1,y1); //where to start drawing
-context.lineTo(x2,y2); //lineTo(where to go from last...)
-context.lineTo(x3,y3);
-context.lineTo(x1,y1);
-context.fill();
-context.strokeStyle = "#FFFFFF"; // change the color we are using
-context.lineWidth =2;
-context.stroke();
-context.closePath(); //end a path ...
+//console.log(parsedJSON[0].color)
+
+context.fillStyle = "#8ED6FF"; // change the color we are using
+let xPos = canvas.width/3;
+let yPos = canvas.height/2;
+let radius  = 40;
+let startAngle = 0;
+let endAngle = Math.PI * 2 //full rotation
+//context.strokeStyle = "#FF0000"; // change the color we are using
+context.arc(xPos,yPos,radius,startAngle,endAngle, true);
+context.fill(); // set the fill
+context.lineWidth=2; //change stroke
+context.stroke(0);//set the stroke
+
 }//ONLOAD
   </script>
 </head>
