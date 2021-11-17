@@ -85,42 +85,55 @@ $.ajax({
   //console.log("responded" +response);
   //use the JSON .parse function to convert the JSON string into a Javascript object
   let parsedJSON = JSON.parse(response);
-//  console.log(parsedJSON[0].size)
-},
-error: function() {
-  console.log("error occurred");
-}
-});
+console.log(parsedJSON[0].color)
 
+//draw the canvas and do shtuff in it
 
 // get the canvas
 let canvas = document.getElementById("testCanvas");
 //Make canvas the size of the window
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight ;
+
+//get the context
+let context = canvas.getContext("2d");
+//would usually be black
+
+//draw users based on data retrieved
+drawUser();
+
 //Make canvas resize to the window
 window.addEventListener('resize', function(event) {
 //console.log("resize");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+//redraw users over resized canvas
+drawUser();
 });
-//get the context
-let context = canvas.getContext("2d");
-//would usually be black
 
-//console.log(parsedJSON[0].color)
+//function for drawing the user (according to their user Input Data)
+function drawUser(){
+  let color = parsedJSON[0].color
 
-context.fillStyle = "#8ED6FF"; // change the color we are using
-let xPos = canvas.width/3;
-let yPos = canvas.height/2;
-let radius  = 40;
-let startAngle = 0;
-let endAngle = Math.PI * 2 //full rotation
-//context.strokeStyle = "#FF0000"; // change the color we are using
-context.arc(xPos,yPos,radius,startAngle,endAngle, true);
-context.fill(); // set the fill
-context.lineWidth=2; //change stroke
-context.stroke(0);//set the stroke
+  context.fillStyle = color; // change the color we are using
+  let xPos = canvas.width/3;
+  let yPos = canvas.height/2;
+  let radius  = parsedJSON[0].size;
+  let startAngle = 0;
+  let endAngle = Math.PI * 2 //full rotation
+  //context.strokeStyle = "#FF0000"; // change the color we are using
+  context.arc(xPos,yPos,radius,startAngle,endAngle, true);
+  context.fill(); // set the fill
+  context.lineWidth=2; //change stroke
+  context.stroke();//set the stroke
+}
+
+},
+error: function() {
+  console.log("error occurred");
+}
+});
+
 
 }//ONLOAD
   </script>
