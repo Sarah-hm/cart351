@@ -108,7 +108,7 @@ window.addEventListener('resize', function(event) {
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 //redraw users over resized canvas
-drawUser();
+//drawUser();
 });
 
 //function for drawing the user (according to their user Input Data)
@@ -141,26 +141,55 @@ let alpha = 1;
 //Set original values;
 let xPos = canvas.width/3;
 let yPos = canvas.height/2;
-let radius  = parseInt(parsedJSON[0].size);
+let radius  = parseInt(parsedJSON[0].size); //55
 let startAngle = 0;
 let endAngle = Math.PI * 2 //full rotation
 
-//Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
-for(let i=0; i<NUM_DIM; i++){
-console.log(alpha);
+//set pulsating angle
+let sinAngle = 0;
+
+//go draw circle "auras" every frame (while animating)
+requestAnimationFrame(run);
+
+//Every frame, the auras will pulsate and redraw themselves (with the dim effect) according to those pulsating radius values;
+function run(){
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+
+
+
+
+let i = 0;
+//while (i<NUM_DIM){
+  sinAngle +=0.1
+  let  size =  parseInt(radius) - (Math.sin(sinAngle)*50);
+  if(sinAngle > 6.25)
+  sinAngle =0;
+
+  console.log(size);
 
 context.fillStyle = "rgba("+color.r+", "+color.g+", "+color.b+", "+alpha+")"; // change the color we are using
-  context.arc(xPos,yPos,radius,startAngle,endAngle, true);
-  context.fill(); // set the fill
-  // context.lineWidth=2; //change stroke
-  // context.stroke();//set the stroke
+//context.arc(xPos,yPos,newSize,startAngle,endAngle, true);
+context.fillRect(xPos-size/2,yPos-size/2,size,size);
+//console.log(size);
+context.fill(); // set the fill
 
-  // //add to radius while decreasing the alpha (to fake dim effect)
-  radius = radius + 3;
-  alpha = alpha - 0.05;
-}//FOR
+// add to radius while decreasing the alpha (to fake dim effect)
+//size = size + 3;
+//alpha = alpha - 0.05;
+i++;
+//}//WHILE
 
-}//DRAWUSER
+  //Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
+//  for (let i=0; i<NUM_DIM; i++){
+
+//}//FOR (DIM)
+
+
+
+  requestAnimationFrame(run); //so it loops
+}//Request Animation Frame
+}////DRAWUSER
 
 },//SUCCESS
 error: function() {
