@@ -147,7 +147,6 @@ let endAngle = Math.PI * 2 //full rotation
 
 //set pulsating angle
 let sinAngle = 0;
-
 //go draw circle "auras" every frame (while animating)
 requestAnimationFrame(run);
 
@@ -155,17 +154,20 @@ requestAnimationFrame(run);
 function run(){
   context.clearRect(0,0,canvas.width,canvas.height);
 
+sinAngle +=0.05
+let  size =  parseInt(radius) - (Math.sin(sinAngle)*50);
+if(sinAngle > 6.25)
+sinAngle =0;
+//console.log(size);
 
 
-let i = 0;
-//while (i<NUM_DIM){
-  sinAngle +=0.1
-  let  size =  parseInt(radius) - (Math.sin(sinAngle)*50);
-  if(sinAngle > 6.25)
-  sinAngle =0;
+//Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
+for (let i=0; i<NUM_DIM; i++){
 
-  console.log(size);
 
+// newSize = size + (i*3);
+//Overwrite the alpha for every indidual circle to create a dim effect
+alpha = i / 20 ;
 context.fillStyle = "rgba("+color.r+", "+color.g+", "+color.b+", "+alpha+")"; // change the color we are using
 //context.arc(xPos,yPos,newSize,startAngle,endAngle, true);
 context.fillRect(xPos-size/2,yPos-size/2,size,size);
@@ -173,15 +175,12 @@ context.fillRect(xPos-size/2,yPos-size/2,size,size);
 context.fill(); // set the fill
 
 // add to radius while decreasing the alpha (to fake dim effect)
-//size = size + 3;
-//alpha = alpha - 0.05;
-i++;
+console.log(alpha);
+}//FOR (DIM)
+
 //}//WHILE
 
-  //Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
-//  for (let i=0; i<NUM_DIM; i++){
 
-//}//FOR (DIM)
 
 
 
