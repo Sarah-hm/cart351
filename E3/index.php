@@ -62,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
       <label for="color">General Mood</label><input type = "color" id="colorPicker" name="color" value="#8698b8"required>
       <label for="size">Confidence Level</label><input type="range" id="sizeSlider" name="size" min="10" max="200">
-      <label for="speed">Anxiety Level</label>  <input type="range" id="speedSlider" name="speed" min="0" max="1">
+      <label for="speed">Anxiety Level</label>  <input type="range" id="speedSlider" name="speed" min="0" max="100">
       <input type = "submit" name = "submit" value = "send" id = "buttonS" />
 
       </form>

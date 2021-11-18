@@ -62,18 +62,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 
   <script>
 
-  //userShape CLASS
-class userShape{
-
-
-  constructor(x,y,color, size, speed){
-
-  }
-}
-
   //ON LOAD
   window.onload = function(){
-
 //directly here we get the data ...
 //get the data
 $.ajax({
@@ -99,11 +89,15 @@ canvas.height = window.innerHeight ;
 let context = canvas.getContext("2d");
 //would usually be black
 
-console.log(parsedJSON);
 
+//Run through all the users data and create an object based on their entries;
 for (let i=0; i<parsedJSON.length-1;i++){
+  //Set a random position for every user every time we reload the page
+  let xPos = Math.random() * (canvas.width)
+  let yPos = Math.random() * (canvas.height)
+
   //draw users based on data retrieved
-  drawUser(parsedJSON[i].color, parsedJSON[i].size, parsedJSON[i].speed);
+  drawUser(parsedJSON[i].color, parsedJSON[i].size, parsedJSON[i].speed, xPos, yPos);
 }
 
 //Make canvas resize to the window
@@ -116,14 +110,9 @@ canvas.height = window.innerHeight;
 });
 
 //function for drawing the user (according to their user Input Data)
-function drawUser(color, size, speed){
+function drawUser(color, size, speed, xPos, yPos){
   //How many circles are going to be used to create a dim effect
   let NUM_DIM = 20;
-  //Set the ratio to which the radius (size) should change everytime a new circle gets drawn
-  let RATIO_RADIUS = 3
-  //Set the ratio to which the alpha should change everytime a new circle gets drawn
-  //In order to get from full opacity to 0 -> divide value of full opacity by the number of circles drawn to fake the dim effect
-  let RATIO_ALPHA = 1/NUM_DIM
 
 //convert HEX color from dataUserInput file to RGB value (to access Alpha value);
 //Code found here :  https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -136,12 +125,12 @@ function hexToRgb(hex) {
   } : null;
 }
 
+console.log(color);
 //Set the color from the file into the hex converter function
 let convertedColor = hexToRgb(color);
 
 //Set original values;
-let xPos = Math.random() * (canvas.width)
-let yPos = Math.random() * (canvas.height)
+
 let radius  = parseInt(size); //55
 let startAngle = 0;
 let endAngle = Math.PI * 2 //full rotation
@@ -155,7 +144,8 @@ requestAnimationFrame(run);
 function run(){
   context.clearRect(0,0,canvas.width,canvas.height);
 
-sinAngle +=0.05
+//Set the angle of the sin movement (pulsation) to the 'speed' parameter of the user (anxiety level)
+sinAngle += 0.001*speed
 //set pulsion as the original size of the object with a sin movement
 let  pulsion =  parseInt(radius) - (Math.sin(sinAngle)*50);
 if(sinAngle > 6.25)
@@ -174,6 +164,8 @@ context.fillRect(xPos-newSize/2,yPos-newSize/2,newSize,newSize);
 //console.log(size);
 context.fill(); // set the fill
 }//FOR (DIM)
+
+
   requestAnimationFrame(run); //so it loops
 }//Request Animation Frame
 }////DRAWUSER
