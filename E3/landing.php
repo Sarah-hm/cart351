@@ -99,8 +99,12 @@ canvas.height = window.innerHeight ;
 let context = canvas.getContext("2d");
 //would usually be black
 
-//draw users based on data retrieved
-drawUser();
+console.log(parsedJSON);
+
+for (let i=0; i<parsedJSON.length-1;i++){
+  //draw users based on data retrieved
+  drawUser(parsedJSON[i].color, parsedJSON[i].size, parsedJSON[i].speed);
+}
 
 //Make canvas resize to the window
 window.addEventListener('resize', function(event) {
@@ -112,7 +116,7 @@ canvas.height = window.innerHeight;
 });
 
 //function for drawing the user (according to their user Input Data)
-function drawUser(){
+function drawUser(color, size, speed){
   //How many circles are going to be used to create a dim effect
   let NUM_DIM = 20;
   //Set the ratio to which the radius (size) should change everytime a new circle gets drawn
@@ -120,7 +124,6 @@ function drawUser(){
   //Set the ratio to which the alpha should change everytime a new circle gets drawn
   //In order to get from full opacity to 0 -> divide value of full opacity by the number of circles drawn to fake the dim effect
   let RATIO_ALPHA = 1/NUM_DIM
-
 
 //convert HEX color from dataUserInput file to RGB value (to access Alpha value);
 //Code found here :  https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -134,14 +137,12 @@ function hexToRgb(hex) {
 }
 
 //Set the color from the file into the hex converter function
-let color = hexToRgb(parsedJSON[0].color);
-//Set original alpha to full opacity
-let alpha = 1;
+let convertedColor = hexToRgb(color);
 
 //Set original values;
-let xPos = canvas.width/3;
-let yPos = canvas.height/2;
-let radius  = parseInt(parsedJSON[0].size); //55
+let xPos = Math.random() * (canvas.width)
+let yPos = Math.random() * (canvas.height)
+let radius  = parseInt(size); //55
 let startAngle = 0;
 let endAngle = Math.PI * 2 //full rotation
 
@@ -155,35 +156,24 @@ function run(){
   context.clearRect(0,0,canvas.width,canvas.height);
 
 sinAngle +=0.05
-let  size =  parseInt(radius) - (Math.sin(sinAngle)*50);
+//set pulsion as the original size of the object with a sin movement
+let  pulsion =  parseInt(radius) - (Math.sin(sinAngle)*50);
 if(sinAngle > 6.25)
 sinAngle =0;
-//console.log(size);
 
 
 //Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
-for (let i=0; i<NUM_DIM; i++){
-
-
-// newSize = size + (i*3);
-//Overwrite the alpha for every indidual circle to create a dim effect
-alpha = i / 20 ;
-context.fillStyle = "rgba("+color.r+", "+color.g+", "+color.b+", "+alpha+")"; // change the color we are using
+for (let j=0; j<NUM_DIM; j++){
+//overwrite new size on top of original size (with pulsion) to create a dim effect
+newSize = pulsion + (j*7);
+//set alpha to 0.1 to every circle create a more opaque layer on top of eachother
+let alpha = 0.1
+context.fillStyle = "rgba("+convertedColor.r+", "+convertedColor.g+", "+convertedColor.b+", "+alpha+")"; // change the color we are using
 //context.arc(xPos,yPos,newSize,startAngle,endAngle, true);
-context.fillRect(xPos-size/2,yPos-size/2,size,size);
+context.fillRect(xPos-newSize/2,yPos-newSize/2,newSize,newSize);
 //console.log(size);
 context.fill(); // set the fill
-
-// add to radius while decreasing the alpha (to fake dim effect)
-console.log(alpha);
 }//FOR (DIM)
-
-//}//WHILE
-
-
-
-
-
   requestAnimationFrame(run); //so it loops
 }//Request Animation Frame
 }////DRAWUSER
