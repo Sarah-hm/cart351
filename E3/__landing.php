@@ -62,18 +62,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 
   <script>
 
-  //userShape CLASS
-class userShape{
-
-
-  constructor(x,y,color, size, speed){
-
-  }
-}
-
   //ON LOAD
   window.onload = function(){
-
 //directly here we get the data ...
 //get the data
 $.ajax({
@@ -100,21 +90,15 @@ let context = canvas.getContext("2d");
 //would usually be black
 
 
-
-//NEW:: make a helper array to hold the new values for each element (xPos,yPos, and sinAngle)
-let positionsArray=[];
-for(let i =0; i<parsedJSON.length-1; i++){
+//Run through all the users data and create an object based on their entries;
+for (let i=0; i<parsedJSON.length-1;i++){
   //Set a random position for every user every time we reload the page
   let xPos = Math.random() * (canvas.width)
   let yPos = Math.random() * (canvas.height)
-  positionsArray.push({x:xPos,y:yPos,sinAngle:0});
 
+  //draw users based on data retrieved
+  drawUser(parsedJSON[i].color, parsedJSON[i].size, parsedJSON[i].speed, xPos, yPos);
 }
-
-
-requestAnimationFrame(run);
-//Every frame, the auras will pulsate and redraw themselves (with the dim effect) according to those pulsating radius values;
-
 
 //Make canvas resize to the window
 window.addEventListener('resize', function(event) {
@@ -125,75 +109,11 @@ canvas.height = window.innerHeight;
 //drawUser();
 });
 
-
-
-//our main draw loop....
-function run()
-{
-  //clear after drawing all ...
-  context.clearRect(0,0,canvas.width,canvas.height);
-
-  //Run through all the users data and create an object based on their entries;
-  for (let i=0; i<parsedJSON.length-1;i++){
-
-    //set pulsating angle
-
-
-  //draw users based on data retrieved
-  //and the xPos, yPos and its own sin angle
-  drawUser(parsedJSON[i].color, parsedJSON[i].size, parsedJSON[i].speed, positionsArray[i].x,positionsArray[i].y,positionsArray[i].sinAngle);
-
-  //change after each frame the sin angle
-  positionsArray[i].sinAngle +=0.001*parsedJSON[i].speed;
-}
-
-
-
 //function for drawing the user (according to their user Input Data)
-function drawUser(color, size, speed, xPos, yPos,sinAngle){
-  console.log(sinAngle)
-//How many circles are going to be used to create a dim effect
-let NUM_DIM = 20;
-//console.log(color);
-//Set the color from the file into the hex converter function
-let convertedColor = hexToRgb(color);
+function drawUser(color, size, speed, xPos, yPos){
+  //How many circles are going to be used to create a dim effect
+  let NUM_DIM = 20;
 
-//Set original values;
-
-let radius  = parseInt(size); //55
-let startAngle = 0;
-let endAngle = Math.PI * 2 //full rotation
-
-
-//go draw circle "auras" every frame (while animating)
-//sinAngle +=0.005
-//set pulsion as the original size of the object with a sin movement
-let  pulsion =  parseInt(radius) - (Math.sin(sinAngle)*50);
-
-//Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
-for (let j=0; j<NUM_DIM; j++){
-//overwrite new size on top of original size (with pulsion) to create a dim effect
-newSize = pulsion + (j*7);
-//set alpha to 0.1 to every circle create a more opaque layer on top of eachother
-let alpha = 0.05
-context.fillStyle = "rgba("+convertedColor.r+", "+convertedColor.g+", "+convertedColor.b+", "+alpha+")"; // change the color we are using
-//context.arc(xPos,yPos,newSize,startAngle,endAngle, true);
-context.fillRect(xPos-newSize/2,yPos-newSize/2,newSize,newSize);
-//console.log(size);
-context.fill(); // set the fill
-}//FOR (DIM)
-
-  }//drawUser
-  requestAnimationFrame(run);
-}////run
-
-},//SUCCESS
-error: function() {
-  console.log("error occurred");
-}
-});
-
- //MOVE DOWN
 //convert HEX color from dataUserInput file to RGB value (to access Alpha value);
 //Code found here :  https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 function hexToRgb(hex) {
@@ -205,11 +125,62 @@ function hexToRgb(hex) {
   } : null;
 }
 
+console.log(color);
+//Set the color from the file into the hex converter function
+let convertedColor = hexToRgb(color);
+
+//Set original values;
+
+let radius  = parseInt(size); //55
+let startAngle = 0;
+let endAngle = Math.PI * 2 //full rotation
+
+//set pulsating angle
+let sinAngle = 0;
+//go draw circle "auras" every frame (while animating)
+requestAnimationFrame(run);
+
+//Every frame, the auras will pulsate and redraw themselves (with the dim effect) according to those pulsating radius values;
+function run(){
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+//Set the angle of the sin movement (pulsation) to the 'speed' parameter of the user (anxiety level)
+sinAngle += 0.001*speed
+//set pulsion as the original size of the object with a sin movement
+let  pulsion =  parseInt(radius) - (Math.sin(sinAngle)*50);
+if(sinAngle > 6.25)
+sinAngle =0;
+
+
+//Draw circles (NUM_DIM) that get bigger but less opaque to fake a dim light effect around every user "aura";
+for (let j=0; j<NUM_DIM; j++){
+//overwrite new size on top of original size (with pulsion) to create a dim effect
+newSize = pulsion + (j*7);
+//set alpha to 0.1 to every circle create a more opaque layer on top of eachother
+let alpha = 0.1
+context.fillStyle = "rgba("+convertedColor.r+", "+convertedColor.g+", "+convertedColor.b+", "+alpha+")"; // change the color we are using
+//context.arc(xPos,yPos,newSize,startAngle,endAngle, true);
+context.fillRect(xPos-newSize/2,yPos-newSize/2,newSize,newSize);
+//console.log(size);
+context.fill(); // set the fill
+}//FOR (DIM)
+
+
+  requestAnimationFrame(run); //so it loops
+}//Request Animation Frame
+}////DRAWUSER
+
+},//SUCCESS
+error: function() {
+  console.log("error occurred");
+}
+});
+
 
 }//ONLOAD
   </script>
 </head>
 <body>
-<canvas id = "Moodboard" width = 500 height =500></canvas>
+<canvas id = "communityBoard" width = 500 height =500></canvas>
 </body>
 </html>

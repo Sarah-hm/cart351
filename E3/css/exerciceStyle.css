@@ -14,7 +14,7 @@ medium:#8698b8
 
 .container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #f2f2f2;
   padding: 2%;
 }

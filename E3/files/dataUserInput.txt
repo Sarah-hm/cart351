@@ -3,3 +3,4 @@
 {"color":"#b57e29","size":"10","speed":"70"}
 {"color":"#31bcbf","size":"169","speed":"62"}
 {"color":"#747e5d","size":"10","speed":"100"}
+{"color":"#e59ad1","size":"200","speed":"13"}

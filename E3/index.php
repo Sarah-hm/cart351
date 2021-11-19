@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
   <head>
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Exercice 3</title>
+    <title>Moodboard</title>
 
  <link rel="stylesheet" href="css/exerciceStyle.css">
  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -61,8 +61,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
       <form id="userInputForm" action = "" enctype ="multipart/form-data">
 
       <label for="color">General Mood</label><input type = "color" id="colorPicker" name="color" value="#8698b8"required>
-      <label for="size">Confidence Level</label><input type="range" id="sizeSlider" name="size" min="10" max="200">
-      <label for="speed">Anxiety Level</label>  <input type="range" id="speedSlider" name="speed" min="0" max="100">
+      <label for="size">Confidence</label><input type="range" id="sizeSlider" name="size" min="10" max="200">
+      <label for="speed">Anxiety</label>  <input type="range" id="speedSlider" name="speed" min="0" max="100">
       <input type = "submit" name = "submit" value = "send" id = "buttonS" />
 
       </form>
