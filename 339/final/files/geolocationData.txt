@@ -2,3 +2,12 @@
 {"latitude":"45.5219992","longitude":"-73.5867272"}
 {"latitude":"45.5445246","longitude":"-73.5677251"}
 {"latitude":"45.4961194","longitude":"-73.5772075"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}
+{"latitude":"45.5026595","longitude":"-73.5957654"}

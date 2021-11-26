@@ -96,8 +96,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
           center:new google.maps.LatLng(latitude, longitude),
           zoom:zoomLvl,
           mapId: mapID,
-          disableDefaultUI: true,
-        //  streetViewControl: false,
+         disableDefaultUI: true,
+        // streetViewControl: false,
           };
           map = new google.maps.Map(document.getElementById("map"),mapProp);
           //only adds marker if geolocation was enabled, hence new user and new location
@@ -156,22 +156,59 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
         };
 
       function loadAndRunNativeLand(){
+// https://native-land.ca/api/index.php?maps=territories
+
         $.get(
       "https://native-land.ca/api/index.php?maps=territories",
       function (data) {
         //success
         //step 1: console.log the result
-        //console.log(data);
+        //console.log(data.length);
         //set boolean to true
         //loaded = true;
-//for everything data (territory) in the file, draw it on the map
-for (let i = 0; i < data.length ; i ++){
-console.log(data[i].geometry.coordinates[0])
 
-//For every polygon, run through all of its coordinates and create a Path
-//for (let j = 0; j < )
+        // parse data into object
 
-}
+  //Run through data and divide the polygons (puts it in temp) data.length
+        for (let i = 0; i < data.length ; i ++){
+         //  console.log(i);
+         // console.log(data[i]);
+        // console.log(data[i].geometry.coordinates)
+         let temp = data[i].geometry.coordinates;
+        //  let geomArray = data[i].geometry.coordinates[0];
+
+        //Puts all polygon lines (in temp) into their own arrays (geomArray)
+        for(let j = 0; j< temp.length; j++){
+          //console.log (temp[j]);
+          let geomArray = temp[j];
+
+          //set the empty line array that is going to create the path
+          let line = []
+          //Parse all the lines' coordinates (latitude, longitude) and push them into the array
+          for (let k = 0; k < geomArray.length ; k ++){
+          //  console.log(geomArray[k])
+            let coordinates = geomArray[k]
+            let long = parseFloat(coordinates[0]);
+            let lati = parseFloat(coordinates[1]);
+            let coords = {lat:lati, lng: long};
+            line.push(coords);
+            // console.log(lati);
+            // console.log(long);
+          }//FOR GEOMARRAY (coordinates)
+          let territory = new google.maps.Polygon({
+            path:line,
+            strokeColor:"#F2F2F2",
+            strokeOpacity:0.8,
+            strokeWeight:0,
+            fillColor:"#FF0000",
+            fillOpacity:0.1
+
+          });
+          territory.setMap(map);
+              console.log("NEW");
+        }// FOR temp (lines)
+
+       }// FOR data (polygons)
 
       }// GET function
     )//GET
@@ -196,7 +233,7 @@ console.log(data[i].geometry.coordinates[0])
 
             //set the empty line array that is going to create the path
             let line = []
-            console.log(parsedJSON);
+          //  console.log(parsedJSON);
             for (let i = 0; i < parsedJSON.length -1; i++){
               let lati = parseFloat(parsedJSON[i].latitude);
               let long = parseFloat(parsedJSON[i].longitude);
@@ -226,24 +263,28 @@ console.log(data[i].geometry.coordinates[0])
    * element that contains the map. */
   #container{
     height: 100%;
-    width:100%;
-    background:rgba(149, 0, 153,0.55);
-    padding-top:50px;
+    max-width: 100vw;
+    background-color:#DCDCDC;
+    padding:3%;
   }
   #map{
     display:flex;
     height:80vh;
     justify-content:center;
+    flex-wrap:wrap;
   }
   h1{
-    margin-left:25%;
-    margin-top:5%;
+    font-size: 5vh;
     color:rgba(0, 0, 0,0.55);
     font-family: Verdana;
   }
 
   #show-map{
+    height: 4vh;
+  }
 
+  .terAck {
+    padding-top:5vh;
   }
   /* Optional: Makes the sample page fill the window. */
   html, body {
@@ -259,10 +300,22 @@ console.log(data[i].geometry.coordinates[0])
 <div id = "container">
   <h1>The name of the project</h1>
 <div id="map">
-  <div class="TerAck">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  <div class="terAck">
+    <h2>Territorial Acknowledgement</h2>
+  <p>Given that this project was created as part of an academic assignement in the Fine Arts Faculty of Montreal Concordia University,
+    I would like to begin by acknowledging that Concordia University is located on unceded Indigenous lands.
+     The Kanien’kehá:ka Nation is recognized as the custodians of the lands and waters on which the server of this website resides.
+     Tiohtià:ke/Montréal is historically known as a gathering place for many First Nations. Today, it is home to a diverse population of
+     Indigenous and other peoples. We respect the continued connections with the past, present and future in our ongoing relationships with
+     Indigenous and other peoples within the Montreal community.
+ </p>
+  <p> By clicking on the following button to experience this project and website, you are acknowledging the unceded Indigenous lands of the Kanien’kehá:ka Nation, as well as
+      the lands on which you stand, and vow to deepen your understanding and knowledge of those lands.</p>
+
+      <h2> Project Explaination</h2>
+
   </div>
-  <button id="show-map">Show Map</button>
+  <button id="show-map">I acknowledge the stolen lands on which I stand</button>
 </div>
 </div>
 </body>
