@@ -127,7 +127,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
         //	let marker = new google.maps.Marker({position: m1Pos, animation:google.maps.Animation.BOUNCE});
       //  marker.setMap(map);
 
-        //Set data to database
+        //Send data to database
           $.ajax({ //ajax is the most general function, we can be more specific with get, etc... Also very similar to other event handlers
             type: "POST",
             url: "index.php",
@@ -156,18 +156,18 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
             //use the JSON .parse function to convert the JSON string into a Javascript object
             let parsedJSON = JSON.parse(response);
 
+            //set the empty line array that is going to create the path
+            let line = []
             console.log(parsedJSON);
             for (let i = 0; i < parsedJSON.length -1; i++){
-              let lat = parseFloat(parsedJSON[i].latitude);
-              let lng = parseFloat(parsedJSON[i].longitude);
+              let lati = parseFloat(parsedJSON[i].latitude);
+              let long = parseFloat(parsedJSON[i].longitude);
 
+             let coords = {lat:lati, lng: long};
+             line.push(coords);
             }
 
-
-            let newUser ={lat: latitude,lng: longitude};
-            let lastUser ={lat: 45.4042, lng: -71.8929};
-            let line = [newUser, lastUser, newUser];
-
+           console.log(line);
             let webPath = new google.maps.Polyline({
               path:line,
               strokeColor:"#0000FF",
