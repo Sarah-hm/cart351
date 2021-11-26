@@ -102,6 +102,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
           map = new google.maps.Map(document.getElementById("map"),mapProp);
           //only adds marker if geolocation was enabled, hence new user and new location
           addMarker(latitude, longitude);
+
+          //load JSON file of Native lands (territories) and display them on the map;
+          loadAndRunNativeLand();
+
           //traces the path of all users, adding this last one as the most recent entry
           tracingWebPath(latitude, longitude);
         }); // IF GEO
@@ -150,6 +154,34 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
             }
           });
         };
+
+      function loadAndRunNativeLand(){
+        $.get(
+      "https://native-land.ca/api/index.php?maps=territories",
+      function (data) {
+        //success
+        //step 1: console.log the result
+        //console.log(data);
+        //set boolean to true
+        //loaded = true;
+//for everything data (territory) in the file, draw it on the map
+for (let i = 0; i < data.length ; i ++){
+console.log(data[i].geometry.coordinates[0])
+
+//For every polygon, run through all of its coordinates and create a Path
+//for (let j = 0; j < )
+
+}
+
+      }// GET function
+    )//GET
+      //fail
+      .fail(function () {
+        console.log("error");
+      });
+
+      }
+
 
       function tracingWebPath(latitude, longitude){
         //Get all the data from the database;
