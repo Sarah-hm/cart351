@@ -64,15 +64,17 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Google Map API example </title>
+  <title> Native Web </title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTBA5GXAPNgRhVIvAxsgsuZpn2ezBGeCY"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTBA5GXAPNgRhVIvAxsgsuZpn2ezBGeCY&map_ids=4436878dd8c920c0"></script>
     <script>
 
     // we listen for the window load event ...
     $(document).ready(function(){
 
       let map = null;
+      let mapID ="4436878dd8c920c0";
+      let zoomLvl = 13;
       let latitude = null;
       let longitude = null;
 
@@ -92,7 +94,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
           let mapProp= {
           //center on montreal
           center:new google.maps.LatLng(latitude, longitude),
-          zoom:13,
+          zoom:zoomLvl,
+          mapId: mapID,
+          disableDefaultUI: true,
+        //  streetViewControl: false,
           };
           map = new google.maps.Map(document.getElementById("map"),mapProp);
           //only adds marker if geolocation was enabled, hence new user and new location
@@ -112,7 +117,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
           let mapProp= {
           //center on montreal
           center:new google.maps.LatLng(latitude, longitude),
-          zoom:8,
+          zoom:zoomLvl,
+          mapId: mapID,
           };
           map = new google.maps.Map(document.getElementById("map"),mapProp);
           //traces the path of all users
@@ -166,11 +172,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
              let coords = {lat:lati, lng: long};
              line.push(coords);
             }
-
-           console.log(line);
             let webPath = new google.maps.Polyline({
               path:line,
-              strokeColor:"#0000FF",
+              strokeColor:"#F2F2F2",
               strokeOpacity:0.8,
               strokeWeight:2
             });
@@ -188,26 +192,26 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 <style>
   /* Always set the map height explicitly to define the size of the div
    * element that contains the map. */
-  #wrapper{
-    height: 600px;
-    width:85%;
+  #container{
+    height: 100%;
+    width:100%;
     background:rgba(149, 0, 153,0.55);
-    margin-left:8%;
-    margin-top:10px;
     padding-top:50px;
   }
   #map{
-
-    height:550px;
+    display:flex;
+    height:80vh;
+    justify-content:center;
   }
   h1{
     margin-left:25%;
     margin-top:5%;
-    color:rgba(149, 0, 153,0.55);
+    color:rgba(0, 0, 0,0.55);
     font-family: Verdana;
   }
+
   #show-map{
-      margin-left:25%;
+
   }
   /* Optional: Makes the sample page fill the window. */
   html, body {
@@ -218,10 +222,16 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 </style>
 <body>
 
-<h1>Initial Google Map Example</h1>
-<button id="show-map">Show Map</button>
-<div id = "wrapper">
-<div id="map"></div>
+
+
+<div id = "container">
+  <h1>The name of the project</h1>
+<div id="map">
+  <div class="TerAck">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+  <button id="show-map">Show Map</button>
+</div>
 </div>
 </body>
 </html>
