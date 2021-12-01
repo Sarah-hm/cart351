@@ -353,6 +353,10 @@ transition: all 2s;
   color:#000000;
   font-style: italic;
 }
+
+#sideNote{
+  font-size:80%;
+}
 </style>
 <body>
 <div id = "container">
@@ -369,7 +373,7 @@ transition: all 2s;
     <h4>Territorial Acknowledgement</h4>
   <p>Given that this project was created as part of an academic assignement in the Fine Arts Faculty of Concordia University in Tiohtià:ke/Montréal,
     I would like to begin by acknowledging that Concordia University is located on unceded Indigenous lands.
-     The Kanien’kehá:ka Nation is recognized as the custodians of the lands and waters on which the servers of this website resides.
+     The Kanien’kehá:ka Nation is recognized as the custodians of the lands and waters on which the servers of this website reside.
      Tiohtià:ke/Montréal is historically known as a gathering place for many First Nations. Today, it is home to a diverse population of
      Indigenous and other peoples. We respect the continued connections with the past, present and future in our ongoing relationships with
      Indigenous and other peoples within the Montreal community.
@@ -380,10 +384,10 @@ transition: all 2s;
 
       <h4> Project Explanation</h4>
 <p>Let you = a_land aims at facilitating its users' visualization, interpretation and knowledge of the lands on which they stand, as well as the interconnectedness between them based on
-  their own situatedness. The main interface is composed of three layers, two of them using API keys from both <a class = "inTextLink"href="https://developers.google.com/maps">Google Maps</a> and <a class = "inTextLink"href="https://native-land.ca/resources/api-docs/">Native-land Digital</a></p>
+  their own situatedness. The main interface is composed of three layers, two of them using API keys from both <a class = "inTextLink"href="https://developers.google.com/maps">Google Maps</a> and <a class = "inTextLink"href="https://native-land.ca/resources/api-docs/">Native-land Digital.</a></p>
 <p>If you are using the internet in 2021, API keys are all around you everyday. They provide access to some of the world's largest databases and apps, and hence tonnes of terabytes of raw knowledge.
    Applications like Google, Spotify, New York Times and even NASA each use API keys to make their data available to anyone* wanting access to it.</p>
-<p>Hence, the first layer of [] was built using the Google Maps API, making the user able to navigate on the most used <a class = "inTextLink"href="https://pro.arcgis.com/en/pro-app/2.8/help/mapping/properties/mercator.htm">Mercator projection </a>
+<p>Hence, the first layer of this project's interface was built using the Google Maps API, making the user able to navigate on the most used <a class = "inTextLink"href="https://pro.arcgis.com/en/pro-app/2.8/help/mapping/properties/mercator.htm">Mercator projection </a>
   map on the internet.This layer was greyed out, because as much as it is necessary for the user to realistically situated themself geographically,
   it was not the intention to put the main focus on this layer.</p>
   <p>The second layer was made with <a class = "inTextLink"href="https://native-land.ca/resources/api-docs/">Native-land Digital</a> API, which gives free public access to virtually all the data on their own website. While recreating Indigenous territorial maps on top of Google Maps API,
@@ -399,6 +403,8 @@ The third layer is how the user is called to interact with the interface. The pa
         drawn from yourself to the last user who connected to the website. You can now explore your surroundings, gain a greater awareness of your situatedness on the land you stand on, and your interconnectedness with other
         users of this land. A non extensive number of Indigenous territories have been drawn on top of the map you are already familiar with, and clicking on any of them will bring you to a description and more links to further
         your research about the land on which you stand and the communities that have lived on it and protected it.</p>
+
+        <p id="sideNote">*: Depending on your website traffic, some companies may charge for APIs, and some are 100% privatized. APIs are also built to withdraw the access to any developer not using the data within the given guidelines of their owner. </p>
   </div>
   <button id="show-map">I acknowledge the unceded lands on which I stand</button>
     </div>
