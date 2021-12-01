@@ -64,10 +64,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Native Web </title>
+  <title> Let you = a_land</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTBA5GXAPNgRhVIvAxsgsuZpn2ezBGeCY&map_ids=4436878dd8c920c0"></script>
     <script>
+
 
     // we listen for the window load event ...
     $(document).ready(function(){
@@ -77,6 +78,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
       let zoomLvl = 13;
       let latitude = null;
       let longitude = null;
+      let territoryColors = ['#A4BB35','#8C9639','#294324','#363B1E'];
+
 
       $('#show-map').on('click',loadAndRun);
 
@@ -171,8 +174,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
 
   //Run through data and divide the polygons (puts it in temp) data.length
         for (let i = 0; i < data.length ; i ++){
-         //  console.log(i);
-         // console.log(data[i]);
+          // console.log(i);
+          //console.log(data[i]);
+          let link = data[i].properties.description
+          console.log(link);
         // console.log(data[i].geometry.coordinates)
          let temp = data[i].geometry.coordinates;
         //  let geomArray = data[i].geometry.coordinates[0];
@@ -195,20 +200,27 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
             // console.log(lati);
             // console.log(long);
           }//FOR GEOMARRAY (coordinates)
+
+          let territoryFillColorIndex = Math.floor(Math.random()*territoryColors.length);
+          let terrFillColor = territoryColors[territoryFillColorIndex];
+
           let territory = new google.maps.Polygon({
             path:line,
             strokeColor:"#F2F2F2",
             strokeOpacity:0.8,
             strokeWeight:0,
-            fillColor:"#FF0000",
+            fillColor:terrFillColor,
             fillOpacity:0.1
 
           });
           territory.setMap(map);
+          addListenersOnPolygon(territory, link);
               console.log("NEW");
         }// FOR temp (lines)
 
        }// FOR data (polygons)
+
+
 
       }// GET function
     )//GET
@@ -218,6 +230,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
       });
 
       }
+
+      let addListenersOnPolygon = function(polygon, link) {
+  google.maps.event.addListener(polygon, 'click', function (event) {
+    window.open(link, '_blank').focus();
+  });
+}
 
 
       function tracingWebPath(latitude, longitude){
@@ -262,10 +280,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
   /* Always set the map height explicitly to define the size of the div
    * element that contains the map. */
   #container{
-    height: 100%;
+    min-height: 100%;
     max-width: 100vw;
     background-color:#DCDCDC;
-    padding:3%;
+    padding:0;
   }
   #map{
     display:flex;
@@ -273,49 +291,117 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['getAjaxOnLoad']))
     justify-content:center;
     flex-wrap:wrap;
   }
-  h1{
-    font-size: 5vh;
+
+  header {
+    padding-left: 3%;
+    padding-top:1%;
+    margin:0;
+    font-size: 3vh;
     color:rgba(0, 0, 0,0.55);
     font-family: Verdana;
   }
 
   #show-map{
-    height: 4vh;
+    height: 6vh;
+    width:100%;
+    font-size:2vh;
+  }
+
+  .textBox{
+    padding-bottom:3%;
   }
 
   .terAck {
-    padding-top:5vh;
+    font-family:sans-serif;
+    padding-bottom:1%;
+    padding-left:3%;
+    padding-right:3%;
   }
   /* Optional: Makes the sample page fill the window. */
   html, body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
-    padding: 0;
+    background-color:  #DCDCDC;
   }
+
+/* box shadow code from : https://shadows.brumm.af/*/
+  button {
+    margin-bottom: 5%;
+    background-color:#D7D7D7;
+    border:none;
+    box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07)
+;
+transition: all 2s;
+  }
+
+  button:hover{
+  background-color:#353535;
+  color:white;
+  }
+
+.inTextLink {
+  color:#000000;
+}
+
+.inTextLink:hover {
+  color:#000000;
+  font-style: italic;
+}
 </style>
 <body>
-
-
-
 <div id = "container">
-  <h1>The name of the project</h1>
+  <header>
+    <h1>Let you = a_land</h1>
+  </header>
+
+
 <div id="map">
+  <div class="TextBox">
   <div class="terAck">
-    <h2>Territorial Acknowledgement</h2>
-  <p>Given that this project was created as part of an academic assignement in the Fine Arts Faculty of Montreal Concordia University,
+    <h2>By Sarah Hontoy-Major</h2>
+    <h3>Presented to Miranda Joy Smitheram as part of DART 339 : second skin and softwear</h3>
+    <h4>Territorial Acknowledgement</h4>
+  <p>Given that this project was created as part of an academic assignement in the Fine Arts Faculty of Concordia University in Tiohtià:ke/Montréal,
     I would like to begin by acknowledging that Concordia University is located on unceded Indigenous lands.
-     The Kanien’kehá:ka Nation is recognized as the custodians of the lands and waters on which the server of this website resides.
+     The Kanien’kehá:ka Nation is recognized as the custodians of the lands and waters on which the servers of this website resides.
      Tiohtià:ke/Montréal is historically known as a gathering place for many First Nations. Today, it is home to a diverse population of
      Indigenous and other peoples. We respect the continued connections with the past, present and future in our ongoing relationships with
      Indigenous and other peoples within the Montreal community.
  </p>
-  <p> By clicking on the following button to experience this project and website, you are acknowledging the unceded Indigenous lands of the Kanien’kehá:ka Nation, as well as
-      the lands on which you stand, and vow to deepen your understanding and knowledge of those lands.</p>
+ <p>Learn more about Concordia's territorial acknoweledgement <a class = "inTextLink"href="https://www.concordia.ca/indigenous/resources/territorial-acknowledgement.html">right here </a></p>
+  <p> By clicking on the following button to engage with this project and website, you are acknowledging the unceded Indigenous lands of the Kanien’kehá:ka Nation, as well as
+      the lands on which you stand --wherever that might be, and vow to deepen your understanding and knowledge of those lands.</p>
 
-      <h2> Project Explaination</h2>
-
+      <h4> Project Explanation</h4>
+<p>Let you = a_land aims at facilitating its users' visualization, interpretation and knowledge of the lands on which they stand, as well as the interconnectedness between them based on
+  their own situatedness. The main interface is composed of three layers, two of them using API keys from both <a class = "inTextLink"href="https://developers.google.com/maps">Google Maps</a> and <a class = "inTextLink"href="https://native-land.ca/resources/api-docs/">Native-land Digital</a></p>
+<p>If you are using the internet in 2021, API keys are all around you everyday. They provide access to some of the world's largest databases and apps, and hence tonnes of terabytes of raw knowledge.
+   Applications like Google, Spotify, New York Times and even NASA each use API keys to make their data available to anyone* wanting access to it.</p>
+<p>Hence, the first layer of [] was built using the Google Maps API, making the user able to navigate on the most used <a class = "inTextLink"href="https://pro.arcgis.com/en/pro-app/2.8/help/mapping/properties/mercator.htm">Mercator projection </a>
+  map on the internet.This layer was greyed out, because as much as it is necessary for the user to realistically situated themself geographically,
+  it was not the intention to put the main focus on this layer.</p>
+  <p>The second layer was made with <a class = "inTextLink"href="https://native-land.ca/resources/api-docs/">Native-land Digital</a> API, which gives free public access to virtually all the data on their own website. While recreating Indigenous territorial maps on top of Google Maps API,
+    they aim at creating and fostering "conversations about the history of colonialism, Indigenous ways of knowing, and settler-Indigenous relations, through educational resources such as [their] map". Their
+     map is in continuous development and does not claim to be an official source of knowledge.
+     <p>
+The third layer is how the user is called to interact with the interface. The path that traces back users to users in chronological order of log in was meant to create an intertwined thread of some kind, a sort of second-skin weaved fabric placed on top of our lands, connecting our own situatedness with that of other users of the interface.
+</p>
+     <h4>How does it work?</h4>
+     <p>The goal of this interface is to create a visual circuit and living organism between the users, so long as they keep connecting to the website. This is done when users click on the button at the bottom of this page,
+       given they grant their browser access to their geolocation (you will be redirected to downtown Tiohtià:ke/Montréal if you do not grant access). </p>
+       <p>The three layered map will appear, centering your geolocation on the screen. A path will be
+        drawn from yourself to the last user who connected to the website. You can now explore your surroundings, gain a greater awareness of your situatedness on the land you stand on, and your interconnectedness with other
+        users of this land. A non extensive number of Indigenous territories have been drawn on top of the map you are already familiar with, and clicking on any of them will bring you to a description and more links to further
+        your research about the land on which you stand and the communities that have lived on it and protected it.</p>
   </div>
-  <button id="show-map">I acknowledge the stolen lands on which I stand</button>
+  <button id="show-map">I acknowledge the unceded lands on which I stand</button>
+    </div>
 </div>
 </div>
 </body>
